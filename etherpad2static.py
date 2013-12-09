@@ -1,33 +1,4 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
-
-#determine the WebDriver module. default to Firefox
-
-from selenium.webdriver.chrome import webdriver as web_driver_module
-
-
-class CustomWebDriver(web_driver_module.WebDriver):
-    """Our own WebDriver with some helpers added"""
-
-    def find_css(self, css_selector):
-        """Shortcut to find elements by CSS. Returns either a list or singleton"""
-        elems = self.find_elements_by_css_selector(css_selector)
-        found = len(elems)
-        print 'found %s elements (%s)' % (found, css_selector)
-        if found == 1:
-            return elems[0]
-        elif not elems:
-            return None #raise NoSuchElementException(css_selector)
-        return elems
-
-    def wait_for_css(self, css_selector, timeout=10):
-        """ Shortcut for WebDriverWait"""
-        try:
-            return WebDriverWait(self, timeout).until(lambda driver: driver.find_css(css_selector))
-        except:
-            self.quit()
+from webdriver import CustomWebDriver
 
 
 def get_file_list():
